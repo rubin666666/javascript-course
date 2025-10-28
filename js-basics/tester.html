@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Тестер</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .code-area {
+            width: 100%;
+            height: 300px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        .buttons {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn.clear {
+            background: #dc3545;
+        }
+        .btn.clear:hover {
+            background: #c82333;
+        }
+        .output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        .examples {
+            margin-top: 30px;
+        }
+        .example {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+        .example:hover {
+            background: #e9ecef;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        .example-code {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 JavaScript Тестер</h1>
+            <p>Введіть код JavaScript і натисніть "Запустити" щоб побачити результат</p>
+        </div>
+
+        <textarea id="codeInput" class="code-area" placeholder="Введіть ваш JavaScript код тут...
+
+// Приклад:
+console.log('Привіт, світ!');
+
+let name = 'Ваше ім\'я';
+console.log('Мене звуть', name);
+
+// Спробуйте код з уроків!"></textarea>
+
+        <div class="buttons">
+            <button class="btn" onclick="runCode()">▶️ Запустити код</button>
+            <button class="btn clear" onclick="clearOutput()">🗑️ Очистити вивід</button>
+            <button class="btn" onclick="clearAll()">📝 Очистити все</button>
+        </div>
+
+        <h3>📺 Вивід:</h3>
+        <div id="output" class="output">Тут з'явиться результат виконання вашого коду...</div>
+
+        <div class="examples">
+            <h3>💡 Приклади для тестування:</h3>
+            
+            <div class="example" onclick="loadExample(1)">
+                <div class="example-title">1. Змінні та типи даних</div>
+                <div class="example-code">let name = "Анна"; console.log(typeof name);</div>
+            </div>
+            
+            <div class="example" onclick="loadExample(2)">
+                <div class="example-title">2. Арифметичні операції</div>
+                <div class="example-code">let a = 10, b = 3; console.log(a + b, a * b);</div>
+            </div>
+            
+            <div class="example" onclick="loadExample(3)">
+                <div class="example-title">3. Умовні конструкції</div>
+                <div class="example-code">let age = 20; if(age >= 18) console.log("Дорослий");</div>
+            </div>
+            
+            <div class="example" onclick="loadExample(4)">
+                <div class="example-title">4. Цикли</div>
+                <div class="example-code">for(let i = 1; i <= 5; i++) console.log(i);</div>
+            </div>
+            
+            <div class="example" onclick="loadExample(5)">
+                <div class="example-title">5. Функції</div>
+                <div class="example-code">function greet(name) { return "Привіт, " + name; }</div>
+            </div>
+            
+            <div class="example" onclick="loadExample(6)">
+                <div class="example-title">6. Масиви</div>
+                <div class="example-code">let arr = [1,2,3]; console.log(arr.map(x => x*2));</div>
+            </div>
+            
+            <div class="example" onclick="loadExample(7)">
+                <div class="example-title">7. Об'єкти</div>
+                <div class="example-code">let user = {name: "Іван", age: 25}; console.log(user.name);</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let output = document.getElementById('output');
+        let codeInput = document.getElementById('codeInput');
+        
+        // Перехоплюємо console.log
+        let originalLog = console.log;
+        let originalError = console.error;
+        let originalWarn = console.warn;
+        
+        function customLog(...args) {
+            originalLog.apply(console, args);
+            let text = args.map(arg => {
+                if (typeof arg === 'object') {
+                    return JSON.stringify(arg, null, 2);
+                }
+                return String(arg);
+            }).join(' ');
+            output.textContent += text + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function customError(...args) {
+            originalError.apply(console, args);
+            let text = 'ERROR: ' + args.join(' ');
+            output.textContent += text + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function runCode() {
+            // Перехоплюємо console методи
+            console.log = customLog;
+            console.error = customError;
+            console.warn = customError;
+            
+            try {
+                // Додаємо розділювач
+                if (output.textContent && !output.textContent.endsWith('\n')) {
+                    output.textContent += '\n';
+                }
+                output.textContent += '=== Запуск коду ===\n';
+                
+                // Виконуємо код
+                eval(codeInput.value);
+                
+                output.textContent += '=== Завершено ===\n\n';
+                
+            } catch (error) {
+                output.textContent += `ПОМИЛКА: ${error.message}\n`;
+                output.textContent += '=== Завершено з помилкою ===\n\n';
+            } finally {
+                // Відновлюємо оригінальні методи
+                console.log = originalLog;
+                console.error = originalError;
+                console.warn = originalWarn;
+            }
+        }
+        
+        function clearOutput() {
+            output.textContent = '';
+        }
+        
+        function clearAll() {
+            output.textContent = '';
+            codeInput.value = '';
+        }
+        
+        function loadExample(num) {
+            const examples = {
+                1: `// Урок 1: Змінні та типи даних
+let name = "Анна";
+let age = 25;
+let isStudent = true;
+let hobbies = ["читання", "спорт", "музика"];
+
+console.log("Ім'я:", name);
+console.log("Вік:", age);
+console.log("Студент:", isStudent);
+console.log("Хобі:", hobbies);
+console.log("Тип імені:", typeof name);`,
+
+                2: `// Урок 2: Оператори
+let a = 10;
+let b = 3;
+
+console.log("a + b =", a + b);
+console.log("a - b =", a - b);
+console.log("a * b =", a * b);
+console.log("a / b =", a / b);
+console.log("a % b =", a % b);
+
+console.log("a > b:", a > b);
+console.log("a === 10:", a === 10);`,
+
+                3: `// Урок 3: Умовні конструкції
+let temperature = 25;
+
+if (temperature > 30) {
+    console.log("Дуже спекотно! 🔥");
+} else if (temperature > 20) {
+    console.log("Приємна погода! ☀️");
+} else {
+    console.log("Прохолодно 🌤️");
+}
+
+let day = "понеділок";
+switch (day) {
+    case "понеділок":
+        console.log("Початок тижня 😴");
+        break;
+    case "п'ятниця":
+        console.log("Майже вихідні! 🎉");
+        break;
+    default:
+        console.log("Звичайний день");
+}`,
+
+                4: `// Урок 4: Цикли
+console.log("Числа від 1 до 5:");
+for (let i = 1; i <= 5; i++) {
+    console.log(i);
+}
+
+console.log("Фрукти:");
+let fruits = ["яблуко", "банан", "апельсин"];
+for (let fruit of fruits) {
+    console.log("🍎", fruit);
+}`,
+
+                5: `// Урок 5: Функції
+function greet(name) {
+    return "Привіт, " + name + "!";
+}
+
+const multiply = (a, b) => a * b;
+
+console.log(greet("Анна"));
+console.log("5 * 3 =", multiply(5, 3));
+
+// Функція з callback
+function processArray(arr, callback) {
+    return arr.map(callback);
+}
+
+let numbers = [1, 2, 3, 4];
+let doubled = processArray(numbers, x => x * 2);
+console.log("Подвоєні числа:", doubled);`,
+
+                6: `// Урок 6: Масиви
+let numbers = [1, 2, 3, 4, 5];
+
+// map - перетворення
+let doubled = numbers.map(x => x * 2);
+console.log("Подвоєні:", doubled);
+
+// filter - фільтрація
+let evenNumbers = numbers.filter(x => x % 2 === 0);
+console.log("Парні:", evenNumbers);
+
+// reduce - зведення
+let sum = numbers.reduce((total, num) => total + num, 0);
+console.log("Сума:", sum);
+
+// Робота з об'єктами в масиві
+let students = [
+    {name: "Анна", grade: 95},
+    {name: "Петро", grade: 87}
+];
+
+let names = students.map(s => s.name);
+console.log("Імена:", names);`,
+
+                7: `// Урок 7: Об'єкти
+let person = {
+    name: "Іван",
+    age: 28,
+    city: "Київ",
+    greet: function() {
+        return "Привіт, мене звуть " + this.name;
+    }
+};
+
+console.log("Ім'я:", person.name);
+console.log("Вік:", person["age"]);
+console.log(person.greet());
+
+// Деструктуризація
+let {name, age} = person;
+console.log("Деструктуризація:", name, age);
+
+// Object методи
+console.log("Ключі:", Object.keys(person));
+console.log("Значення:", Object.values(person));`
+            };
+            
+            codeInput.value = examples[num] || '';
+        }
+        
+        // Привітання
+        console.log('🚀 JavaScript Тестер готовий до роботи!');
+        console.log('💡 Введіть код вище і натисніть "Запустити"');
+    </script>
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основи JavaScript - Навчальний курс</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .lesson-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .lesson-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .lesson-title {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .lesson-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .file-link {
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .file-link:hover {
+            background: #218838;
+        }
+        
+        .file-link.exercise {
+            background: #fd7e14;
+        }
+        
+        .file-link.exercise:hover {
+            background: #e8650e;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .file-structure {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Основи JavaScript</h1>
+        <p>Інтерактивний курс для початківців</p>
+    </div>
+
+    <div class="section">
+        <h2>📋 Як користуватися курсом</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 20px;">
+            <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                <h4 style="margin-top: 0; color: #155724;">🎯 Покроковий план навчання</h4>
+                <ol style="margin: 0;">
+                    <li><strong>Теорія:</strong> Відкрийте урок .js файл та прочитайте</li>
+                    <li><strong>Практика:</strong> Відкрийте файл завдань з папки exercises/</li>
+                    <li><strong>Тестування:</strong> Запустіть код одним із способів нижче</li>
+                    <li><strong>Експерименти:</strong> Змінюйте код, додавайте свої приклади</li>
+                    <li><strong>Перевірка:</strong> Відповідайте на питання в кінці кожного уроку</li>
+                </ol>
+            </div>
+            
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <h4 style="margin-top: 0; color: #856404;">⏱️ Орієнтовний час навчання</h4>
+                <ul style="margin: 0;">
+                    <li><strong>Урок 1-2:</strong> По 30-45 хвилин кожен</li>
+                    <li><strong>Урок 3-4:</strong> По 45-60 хвилин кожен</li>
+                    <li><strong>Урок 5-7:</strong> По 60-90 хвилин кожен</li>
+                    <li><strong>Завдання:</strong> 30-60 хвилин на урок</li>
+                    <li><strong>Загалом:</strong> 8-12 годин активного навчання</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="highlight">
+            <strong>� Способи запуску коду (виберіть найзручніший):</strong><br><br>
+            <strong>🥇 Найпростіший - tester.html:</strong> Відкрийте файл tester.html в браузері<br>
+            <strong>🥈 Node.js (якщо встановлено):</strong> <code>node 01-variables.js</code><br>
+            <strong>🥉 Консоль браузера:</strong> F12 → Console → вставте код<br>
+            <strong>🌐 Онлайн редактори:</strong> <a href="https://codepen.io" target="_blank">CodePen</a>, <a href="https://jsfiddle.net" target="_blank">JSFiddle</a>, <a href="https://replit.com" target="_blank">Replit</a>
+        </div>
+        
+        <div style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #bee5eb;">
+            <strong>🎓 Поради для ефективного навчання:</strong>
+            <ul style="margin-bottom: 0;">
+                <li><strong>Не поспішайте:</strong> Краще добре зрозуміти одну тему</li>
+                <li><strong>Практикуйтеся:</strong> Обов'язково виконуйте завдання</li>
+                <li><strong>Експериментуйте:</strong> Змінюйте код, дивіться що станеться</li>
+                <li><strong>Записуйте:</strong> Ведіть нотатки з важливими моментами</li>
+                <li><strong>Повторюйте:</strong> Перегляньте складні теми ще раз</li>
+                <li><strong>Запитуйте:</strong> Шукайте відповіді в документації MDN</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📚 Уроки курсу</h2>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <h4 style="margin-top: 0;">📊 Ваш прогрес</h4>
+            <div style="background: #e9ecef; height: 20px; border-radius: 10px; overflow: hidden;">
+                <div style="background: linear-gradient(90deg, #28a745, #20c997); height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 10px;" id="progress-bar"></div>
+            </div>
+            <p style="margin: 10px 0 0 0; font-size: 14px; color: #6c757d;">
+                <span id="progress-text">Почніть з першого уроку!</span>
+                <span style="float: right;">
+                    <input type="checkbox" id="lesson-1" onchange="updateProgress()"> Урок 1
+                    <input type="checkbox" id="lesson-2" onchange="updateProgress()"> Урок 2
+                    <input type="checkbox" id="lesson-3" onchange="updateProgress()"> Урок 3
+                    <input type="checkbox" id="lesson-4" onchange="updateProgress()"> Урок 4
+                    <input type="checkbox" id="lesson-5" onchange="updateProgress()"> Урок 5
+                    <input type="checkbox" id="lesson-6" onchange="updateProgress()"> Урок 6
+                    <input type="checkbox" id="lesson-7" onchange="updateProgress()"> Урок 7
+                </span>
+            </p>
+        </div>
+
+        <div class="lesson-grid">
+            <div class="lesson-card">
+                <div class="lesson-number">1</div>
+                <h3 class="lesson-title">Змінні та типи даних</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> <code>let</code>, <code>const</code>, <code>var</code>, типи даних, <code>typeof</code><br>
+                    <strong>⏱️ Час:</strong> 30-45 хвилин<br>
+                    <strong>🏗️ Основа для:</strong> Всіх наступних уроків
+                </p>
+                <a href="01-variables.js" class="file-link">📖 Урок</a>
+                <a href="exercises/01-variables-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">2</div>
+                <h3 class="lesson-title">Оператори</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> <code>+</code>, <code>-</code>, <code>==</code>, <code>===</code>, <code>&&</code>, <code>||</code>, тернарний оператор<br>
+                    <strong>⏱️ Час:</strong> 30-45 хвилин<br>
+                    <strong>🏗️ Основа для:</strong> Умовних конструкцій та циклів
+                </p>
+                <a href="02-operators.js" class="file-link">📖 Урок</a>
+                <a href="exercises/02-operators-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">3</div>
+                <h3 class="lesson-title">Умовні конструкції</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> <code>if/else</code>, <code>switch/case</code>, складні умови<br>
+                    <strong>⏱️ Час:</strong> 45-60 хвилин<br>
+                    <strong>🏗️ Проекти:</strong> Валідатор, система знижок, гра
+                </p>
+                <a href="03-conditions.js" class="file-link">📖 Урок</a>
+                <a href="exercises/03-conditions-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">4</div>
+                <h3 class="lesson-title">Цикли</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> <code>for</code>, <code>while</code>, <code>for-of</code>, <code>break</code>, <code>continue</code><br>
+                    <strong>⏱️ Час:</strong> 45-60 хвилин<br>
+                    <strong>🏗️ Проекти:</strong> Таблиця множення, аналізатор тексту
+                </p>
+                <a href="04-loops.js" class="file-link">📖 Урок</a>
+                <a href="exercises/04-loops-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">5</div>
+                <h3 class="lesson-title">Функції</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> Function Declaration, Arrow Functions, замикання, рекурсія<br>
+                    <strong>⏱️ Час:</strong> 60-90 хвилин<br>
+                    <strong>🏗️ Проекти:</strong> Система завдань, калькулятор з історією
+                </p>
+                <a href="05-functions.js" class="file-link">📖 Урок</a>
+                <a href="exercises/05-functions-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">6</div>
+                <h3 class="lesson-title">Масиви</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>sort</code>, <code>find</code><br>
+                    <strong>⏱️ Час:</strong> 60-90 хвилин<br>
+                    <strong>🏗️ Проекти:</strong> Аналізатор продажів, система фільтрації
+                </p>
+                <a href="06-arrays.js" class="file-link">📖 Урок</a>
+                <a href="exercises/06-arrays-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+
+            <div class="lesson-card">
+                <div class="lesson-number">7</div>
+                <h3 class="lesson-title">Об'єкти</h3>
+                <p class="lesson-description">
+                    <strong>🎯 Що вивчите:</strong> Створення об'єктів, методи, деструктуризація, геттери/сеттери<br>
+                    <strong>⏱️ Час:</strong> 60-90 хвилин<br>
+                    <strong>🏗️ Проекти:</strong> Task Manager, банківський рахунок
+                </p>
+                <a href="07-objects.js" class="file-link">📖 Урок</a>
+                <a href="exercises/07-objects-exercises.js" class="file-link exercise">📝 Завдання</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🗂️ Структура файлів</h2>
+        <div class="file-structure">
+js-basics/
+├── index.html              # Цей файл (головна сторінка)
+├── README.md              # Документація курсу
+├── 01-variables.js        # Урок 1: Змінні та типи даних
+├── 02-operators.js        # Урок 2: Оператори
+├── 03-conditions.js       # Урок 3: Умовні конструкції
+├── 04-loops.js           # Урок 4: Цикли
+├── 05-functions.js       # Урок 5: Функції
+├── 06-arrays.js          # Урок 6: Масиви
+├── 07-objects.js         # Урок 7: Об'єкти
+└── exercises/            # Папка з практичними завданнями
+    ├── 01-variables-exercises.js
+    ├── 02-operators-exercises.js
+    ├── 03-conditions-exercises.js
+    ├── 04-loops-exercises.js
+    ├── 05-functions-exercises.js
+    ├── 06-arrays-exercises.js
+    └── 07-objects-exercises.js
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Як виконувати завдання</h2>
+        <ol>
+            <li><strong>Спочатку вивчіть урок</strong> - відкрийте відповідний .js файл (наприклад, <code>01-variables.js</code>)</li>
+            <li><strong>Потім перейдіть до завдань</strong> - відкрийте файл з папки exercises (наприклад, <code>exercises/01-variables-exercises.js</code>)</li>
+            <li><strong>Змініть значення змінних</strong> на свої власні</li>
+            <li><strong>Запустіть код</strong> одним з способів:
+                <ul>
+                    <li><code>node filename.js</code> (якщо встановлено Node.js)</li>
+                    <li>Скопіюйте код в консоль браузера (F12)</li>
+                    <li>Використайте онлайн редактор</li>
+                </ul>
+            </li>
+            <li><strong>Експериментуйте!</strong> Змінюйте код, додавайте власні приклади</li>
+        </ol>
+
+        <div class="highlight">
+            <strong>🎓 Порада:</strong> Не поспішайте! Краще добре зрозуміти одну тему, ніж поверхово пройти декілька.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🌟 Додаткові ресурси</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+            <div style="background: #e7f3ff; padding: 15px; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: #0066cc;">📚 Документація</h4>
+                <ul style="margin: 0; font-size: 14px;">
+                    <li><a href="https://developer.mozilla.org/uk/docs/Web/JavaScript" target="_blank">MDN JavaScript</a></li>
+                    <li><a href="https://javascript.info/" target="_blank">JavaScript.info</a></li>
+                    <li><a href="https://learn.javascript.ru/" target="_blank">Learn JavaScript (RU)</a></li>
+                </ul>
+            </div>
+            
+            <div style="background: #fff0e6; padding: 15px; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: #cc6600;">🛠️ Інструменти</h4>
+                <ul style="margin: 0; font-size: 14px;">
+                    <li><a href="https://code.visualstudio.com/" target="_blank">VS Code</a> - редактор коду</li>
+                    <li><a href="https://nodejs.org/" target="_blank">Node.js</a> - для запуску JS</li>
+                    <li><a href="https://codepen.io/" target="_blank">CodePen</a> - онлайн редактор</li>
+                </ul>
+            </div>
+            
+            <div style="background: #f0fff0; padding: 15px; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: #006600;">🎮 Практика</h4>
+                <ul style="margin: 0; font-size: 14px;">
+                    <li><a href="https://www.freecodecamp.org/" target="_blank">FreeCodeCamp</a></li>
+                    <li><a href="https://www.codewars.com/" target="_blank">Codewars</a></li>
+                    <li><a href="https://leetcode.com/" target="_blank">LeetCode</a></li>
+                </ul>
+            </div>
+            
+            <div style="background: #f8f0ff; padding: 15px; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: #6600cc;">👥 Спільноти</h4>
+                <ul style="margin: 0; font-size: 14px;">
+                    <li><a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a></li>
+                    <li><a href="https://www.reddit.com/r/javascript/" target="_blank">Reddit r/javascript</a></li>
+                    <li><a href="https://dou.ua/" target="_blank">DOU.ua</a> (Україна)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>❓ Часті питання</h2>
+        <details style="margin-bottom: 10px;">
+            <summary style="cursor: pointer; font-weight: bold; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                🤔 Що робити, якщо код не працює?
+            </summary>
+            <div style="padding: 15px; background: #ffffff; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 5px 5px;">
+                <ol>
+                    <li>Перевірте чи немає друкарських помилок</li>
+                    <li>Переконайтеся, що всі дужки і лапки закриті</li>
+                    <li>Відкрийте консоль браузера (F12) і подивіться на помилки</li>
+                    <li>Спробуйте запустити код по частинах</li>
+                    <li>Використайте <code>console.log()</code> для дебагінгу</li>
+                </ol>
+            </div>
+        </details>
+        
+        <details style="margin-bottom: 10px;">
+            <summary style="cursor: pointer; font-weight: bold; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                ⏰ Скільки часу потрібно на вивчення?
+            </summary>
+            <div style="padding: 15px; background: #ffffff; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 5px 5px;">
+                <p><strong>Мінімум:</strong> 8-12 годин активного навчання (1-2 тижні по 1 годині на день)</p>
+                <p><strong>Комфортно:</strong> 2-4 тижні з практикою та повтореннями</p>
+                <p><strong>Для закріплення:</strong> Ще 2-4 тижні створення власних проектів</p>
+            </div>
+        </details>
+        
+        <details style="margin-bottom: 10px;">
+            <summary style="cursor: pointer; font-weight: bold; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                🎯 Що робити після завершення курсу?
+            </summary>
+            <div style="padding: 15px; background: #ffffff; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 5px 5px;">
+                <ul>
+                    <li><strong>DOM маніпуляції:</strong> Навчіться змінювати веб-сторінки</li>
+                    <li><strong>Async/Await:</strong> Вивчіть асинхронне програмування</li>
+                    <li><strong>ES6+ функції:</strong> Деструктуризація, модулі, класи</li>
+                    <li><strong>Фреймворки:</strong> React, Vue.js або Angular</li>
+                    <li><strong>Node.js:</strong> Серверна розробка на JavaScript</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details style="margin-bottom: 10px;">
+            <summary style="cursor: pointer; font-weight: bold; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                � Які перспективи після вивчення JavaScript?
+            </summary>
+            <div style="padding: 15px; background: #ffffff; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 5px 5px;">
+                <ul>
+                    <li><strong>Frontend розробник:</strong> Створення інтерфейсів веб-сайтів</li>
+                    <li><strong>Backend розробник:</strong> Серверна розробка на Node.js</li>
+                    <li><strong>Fullstack розробник:</strong> Повний цикл веб-розробки</li>
+                    <li><strong>Mobile розробник:</strong> React Native для мобільних додатків</li>
+                    <li><strong>Desktop розробник:</strong> Electron для настільних додатків</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <footer style="text-align: center; padding: 30px; background: #f8f9fa; border-radius: 10px; margin-top: 30px;">
+        <h3 style="color: #495057;">🚀 Готові почати свою подорож у світ JavaScript?</h3>
+        <p style="color: #6c757d; margin-bottom: 20px;">
+            Почніть з першого уроку і крок за кроком опануйте одну з найпопулярніших мов програмування!
+        </p>
+        <a href="01-variables.js" style="background: #007bff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block;">
+            📖 Почати з Уроку 1
+        </a>
+        <a href="tester.html" style="background: #28a745; color: white; padding: 12px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block; margin-left: 10px;">
+            🧪 Відкрити Тестер
+        </a>
+        
+        <p style="margin-top: 30px; font-size: 12px; color: #6c757d;">
+            💝 Створено з любов'ю для початківців програмістів | 2023
+        </p>
+    </footer>
+
+    <script>
+        // Прогрес-трекер
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="lesson-"]');
+            const checked = document.querySelectorAll('input[type="checkbox"][id^="lesson-"]:checked').length;
+            const total = checkboxes.length;
+            const progress = (checked / total) * 100;
+            
+            document.getElementById('progress-bar').style.width = progress + '%';
+            
+            if (progress === 0) {
+                document.getElementById('progress-text').textContent = 'Почніть з першого уроку!';
+            } else if (progress < 100) {
+                document.getElementById('progress-text').textContent = `Прогрес: ${checked}/${total} уроків (${Math.round(progress)}%)`;
+            } else {
+                document.getElementById('progress-text').textContent = '🎉 Вітаємо! Ви завершили всі уроки!';
+            }
+            
+            // Зберігаємо прогрес в localStorage
+            const progressData = Array.from(checkboxes).map(cb => cb.checked);
+            localStorage.setItem('js-course-progress', JSON.stringify(progressData));
+        }
+        
+        // Завантажуємо збережений прогрес
+        function loadProgress() {
+            const saved = localStorage.getItem('js-course-progress');
+            if (saved) {
+                const progressData = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="lesson-"]');
+                checkboxes.forEach((cb, index) => {
+                    if (progressData[index]) {
+                        cb.checked = true;
+                    }
+                });
+                updateProgress();
+            }
+        }
+        
+        // Привітання в консолі
+        console.log('🎉 Ласкаво просимо до курсу JavaScript!');
+        console.log('📚 Натисніть на посилання уроків для початку навчання');
+        console.log('💡 Використовуйте чекбокси для відстеження прогресу');
+        console.log('🧪 Не забудьте про інтерактивний тестер (tester.html)');
+        
+        // Завантажуємо прогрес при загрузці сторінки
+        document.addEventListener('DOMContentLoaded', loadProgress);
+    </script>
+</body>
+</html>
