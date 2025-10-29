@@ -27,6 +27,14 @@ console.log('Мене звуть', name);
             <button class="btn" onclick="runCode()">▶️ Запустити код</button>
             <button class="btn clear" onclick="clearOutput()">🗑️ Очистити вивід</button>
             <button class="btn" onclick="clearAll()">📝 Очистити все</button>
+            <button class="btn" onclick="saveCode()">💾 Зберегти код</button>
+            <button class="btn" onclick="loadCode()">📂 Завантажити код</button>
+        </div>
+        
+        <div class="code-info">
+            <span id="charCount">Символів: 0</span> |
+            <span id="lineCount">Рядків: 1</span> |
+            <span>Натисніть Ctrl+Enter для швидкого запуску</span>
         </div>
 
         <h3>📺 Вивід:</h3>
@@ -101,32 +109,60 @@ console.log('Мене звуть', name);
         }
         
         function runCode() {
-            // Перехоплюємо console методи
-            console.log = customLog;
-            console.error = customError;
-            console.warn = customError;
+            const runBtn = document.querySelector('.btn');
             
-            try {
-                // Додаємо розділювач
-                if (output.textContent && !output.textContent.endsWith('\n')) {
-                    output.textContent += '\n';
-                }
-                output.textContent += '=== Запуск коду ===\n';
-                
-                // Виконуємо код
-                eval(codeInput.value);
-                
-                output.textContent += '=== Завершено ===\n\n';
-                
-            } catch (error) {
-                output.textContent += `ПОМИЛКА: ${error.message}\n`;
-                output.textContent += '=== Завершено з помилкою ===\n\n';
-            } finally {
-                // Відновлюємо оригінальні методи
-                console.log = originalLog;
-                console.error = originalError;
-                console.warn = originalWarn;
+            // Перевіряємо чи є код
+            if (!codeInput.value.trim()) {
+                output.textContent += '⚠️ Введіть код для виконання!\n';
+                return;
             }
+            
+            // Додаємо анімацію завантаження
+            runBtn.classList.add('loading');
+            runBtn.textContent = '⏳ Виконання...';
+            
+            setTimeout(() => {
+                // Перехоплюємо console методи
+                console.log = customLog;
+                console.error = customError;
+                console.warn = customError;
+                
+                try {
+                    // Додаємо розділювач з часом
+                    if (output.textContent && !output.textContent.endsWith('\n')) {
+                        output.textContent += '\n';
+                    }
+                    output.textContent += `🚀 Запуск о ${new Date().toLocaleTimeString()}\n`;
+                    output.textContent += '─'.repeat(40) + '\n';
+                    
+                    // Виконуємо код
+                    eval(codeInput.value);
+                    
+                    // Якщо немає виводу, показуємо успіх
+                    const lines = output.textContent.split('\n');
+                    if (lines.length <= 3) {
+                        output.textContent += '✅ Код виконано успішно (без виводу)\n';
+                    }
+                    
+                    output.textContent += '─'.repeat(40) + '\n';
+                    output.textContent += '🏁 Завершено\n\n';
+                    
+                } catch (error) {
+                    output.textContent += `❌ ПОМИЛКА: ${error.message}\n`;
+                    output.textContent += `💡 Рядок: ${error.lineNumber || 'невідомо'}\n`;
+                    output.textContent += '─'.repeat(40) + '\n';
+                    output.textContent += '🚫 Завершено з помилкою\n\n';
+                } finally {
+                    // Відновлюємо оригінальні методи
+                    console.log = originalLog;
+                    console.error = originalError;
+                    console.warn = originalWarn;
+                    
+                    // Прибираємо анімацію
+                    runBtn.classList.remove('loading');
+                    runBtn.textContent = '▶️ Запустити код';
+                }
+            }, 100);
         }
         
         function clearOutput() {
@@ -269,9 +305,75 @@ console.log("Значення:", Object.values(person));`
             codeInput.value = examples[num] || '';
         }
         
+        // Лічильники символів та рядків
+        function updateCounts() {
+            const text = codeInput.value;
+            document.getElementById('charCount').textContent = `Символів: ${text.length}`;
+            document.getElementById('lineCount').textContent = `Рядків: ${text.split('\n').length}`;
+        }
+        
+        // Оновлення лічильників при вводі
+        codeInput.addEventListener('input', updateCounts);
+        codeInput.addEventListener('keydown', function(e) {
+            // Ctrl+Enter для швидкого запуску
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                runCode();
+            }
+            // Tab для відступів
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 4;
+            }
+        });
+        
+        // Збереження коду в localStorage
+        function saveCode() {
+            localStorage.setItem('js-tester-code', codeInput.value);
+            output.textContent += '💾 Код збережено!\n';
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // Завантаження коду з localStorage
+        function loadCode() {
+            const savedCode = localStorage.getItem('js-tester-code');
+            if (savedCode) {
+                codeInput.value = savedCode;
+                updateCounts();
+                output.textContent += '📂 Код завантажено!\n';
+                output.scrollTop = output.scrollHeight;
+            } else {
+                output.textContent += '❌ Немає збереженого коду!\n';
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+        
+        // Автозбереження коду кожні 30 секунд
+        setInterval(() => {
+            if (codeInput.value.trim()) {
+                localStorage.setItem('js-tester-auto-save', codeInput.value);
+            }
+        }, 30000);
+        
+        // Завантаження автозбереженого коду при відкритті
+        window.addEventListener('load', () => {
+            const autoSaved = localStorage.getItem('js-tester-auto-save');
+            if (autoSaved && !codeInput.value.trim()) {
+                codeInput.value = autoSaved;
+                updateCounts();
+            }
+        });
+        
         // Привітання
         console.log('🚀 JavaScript Тестер готовий до роботи!');
         console.log('💡 Введіть код вище і натисніть "Запустити"');
+        console.log('⚡ Hotkeys: Ctrl+Enter - запуск, Tab - відступ');
+        
+        // Початкове оновлення лічильників
+        updateCounts();
     </script>
 </body>
 </html>

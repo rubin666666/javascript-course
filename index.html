@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Курс - Навігація</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .nav-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-card h3 {
+            color: #007bff;
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+        
+        .nav-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .nav-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: scale(1.05);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .beginner { border-left-color: #28a745; }
+        .beginner .nav-link { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .beginner .nav-link:hover { background: linear-gradient(135deg, #1e7e34, #155724); }
+        
+        .reference { border-left-color: #ffc107; }
+        .reference .nav-link { background: linear-gradient(135deg, #ffc107, #e0a800); }
+        .reference .nav-link:hover { background: linear-gradient(135deg, #e0a800, #d39e00); }
+        
+        .practice { border-left-color: #dc3545; }
+        .practice .nav-link { background: linear-gradient(135deg, #dc3545, #c82333); }
+        .practice .nav-link:hover { background: linear-gradient(135deg, #c82333, #bd2130); }
+        
+        .quick-links {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .quick-links h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        
+        .quick-links a {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .quick-links a:hover {
+            background: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 JavaScript Курс</h1>
+        <p>Повний курс основ JavaScript з інтерактивними прикладами</p>
+    </div>
+
+    <div class="nav-grid">
+        <div class="nav-card beginner">
+            <h3>🎯 Для початківців</h3>
+            <p>Почни звідси, якщо ніколи не програмував або тільки знайомишся з JavaScript. Покрокова інструкція за 15 хвилин.</p>
+            <a href="START-HERE.md" class="nav-link">📚 Почати навчання</a>
+        </div>
+
+        <div class="nav-card reference">
+            <h3>📖 Повний довідник</h3>
+            <p>Вся теорія JavaScript з детальними поясненнями та прикладами. Ідеально для систематичного вивчення.</p>
+            <a href="GUIDE.md" class="nav-link">📘 Відкрити довідник</a>
+        </div>
+
+        <div class="nav-card reference">
+            <h3>📝 Швидка шпаргалка</h3>
+            <p>Весь синтаксис JavaScript на одній сторінці. Корисно для швидкого пошуку або повторення матеріалу.</p>
+            <a href="CHEATSHEET.md" class="nav-link">⚡ Відкрити шпаргалку</a>
+        </div>
+
+        <div class="nav-card practice">
+            <h3>🧪 Інтерактивний тестер</h3>
+            <p>Найкращий спосіб експериментувати з кодом! Пиши JavaScript і одразу бач результат.</p>
+            <a href="js-basics/tester.html" class="nav-link">🔬 Відкрити тестер</a>
+        </div>
+
+        <div class="nav-card">
+            <h3>📚 Всі уроки</h3>
+            <p>Структурований курс з 7 уроків: від змінних до об'єктів. Кожен урок з детальними коментарями.</p>
+            <a href="js-basics/index.html" class="nav-link">📖 Переглянути уроки</a>
+        </div>
+
+        <div class="nav-card">
+            <h3>📄 Технічна інформація</h3>
+            <p>Детальна документація проекту, способи запуску, структура файлів та додаткова інформація.</p>
+            <a href="README.md" class="nav-link">📋 Відкрити README</a>
+        </div>
+    </div>
+
+    <div class="quick-links">
+        <h3>⚡ Швидкі посилання на уроки:</h3>
+        <a href="js-basics/01-variables.js">01. Змінні</a>
+        <a href="js-basics/02-operators.js">02. Оператори</a>
+        <a href="js-basics/03-conditions.js">03. Умови</a>
+        <a href="js-basics/04-loops.js">04. Цикли</a>
+        <a href="js-basics/05-functions.js">05. Функції</a>
+        <a href="js-basics/06-arrays.js">06. Масиви</a>
+        <a href="js-basics/07-objects.js">07. Об'єкти</a>
+    </div>
+
+    <div class="quick-links">
+        <h3>💪 Практичні завдання:</h3>
+        <a href="js-basics/exercises/">📝 Exercises</a>
+        <a href="js-basics/solutions/">✅ Solutions</a>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #6c757d;">
+        <p>🎓 Курс створено для вивчення основ JavaScript</p>
+        <p>💡 Рекомендуємо почати з <a href="START-HERE.md" style="color: #007bff;">START-HERE.md</a></p>
+    </footer>
+</body>
+</html>

@@ -261,3 +261,100 @@ code {
     border-radius: 3px;
     font-family: 'Courier New', monospace;
 }
+
+/* New styles for enhanced tester */
+.code-info {
+    background: #e9ecef;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 15px;
+    border-left: 3px solid #007bff;
+}
+
+.code-area {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.code-area:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.example {
+    transition: all 0.2s ease;
+}
+
+.example:active {
+    transform: scale(0.98);
+}
+
+/* Improved syntax highlighting for output */
+.output {
+    position: relative;
+}
+
+.output::before {
+    content: '📺 Консоль:';
+    position: absolute;
+    top: -25px;
+    left: 0;
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: bold;
+}
+
+/* Loading animation */
+.btn.loading {
+    background: #6c757d !important;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 -8px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .code-info {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+    
+    .example {
+        padding: 12px;
+    }
+    
+    .example-code {
+        font-size: 11px;
+    }
+}
