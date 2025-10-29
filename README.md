@@ -70,7 +70,8 @@ xdg-open js-basics/index.html
 ```
 javascript-course/
 ├── 📄 README.md                    # ← Ця документація
-├── � JAVASCRIPT-REFERENCE.md      # ← Довідник-словник по JavaScript
+├── 📚 TUTORIAL.md                  # ← Простий конспект для початківців
+├── 📖 JAVASCRIPT-REFERENCE.md      # ← Довідник-словник по JavaScript
 ├── 🎨 styles.css                   # ← Стилі для всіх HTML сторінок
 │
 └── 📁 js-basics/                   # ← Основна папка курсу
@@ -200,7 +201,8 @@ let age = ???; // ← Замініть ??? на правильний код
 
 ### Основні файли документації:
 - 📄 **README.md** (цей файл) - повний огляд курсу, уроків та інструкції
-- � **JAVASCRIPT-REFERENCE.md** - швидкий довідник-словник по JavaScript
+- 📚 **TUTORIAL.md** - простий конспект основ для початківців
+- 📖 **JAVASCRIPT-REFERENCE.md** - швидкий довідник-словник по JavaScript
 
 ### Структура коментарів в коді:
 ```javascript
@@ -268,8 +270,9 @@ console.log(example); // Що виведе цей код
 4. **Відкрийте тестер для швидкої перевірки коду**
 
 ### Корисні ресурси:
-- � **[JAVASCRIPT-REFERENCE.md](JAVASCRIPT-REFERENCE.md)** - твій швидкий довідник-словник!
-- �📚 [MDN JavaScript Guide](https://developer.mozilla.org/uk/docs/Web/JavaScript/Guide)
+- 📚 **[TUTORIAL.md](TUTORIAL.md)** - простий конспект основ для початківців!
+- 📖 **[JAVASCRIPT-REFERENCE.md](JAVASCRIPT-REFERENCE.md)** - твій швидкий довідник-словник!
+- 📚 [MDN JavaScript Guide](https://developer.mozilla.org/uk/docs/Web/JavaScript/Guide)
 - 🎓 [JavaScript.info](https://javascript.info/)
 - 💡 [W3Schools JavaScript](https://www.w3schools.com/js/)
 - 🎯 [Codecademy JavaScript](https://www.codecademy.com/learn/introduction-to-javascript)
