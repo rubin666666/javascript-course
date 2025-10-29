@@ -42,6 +42,9 @@
 
 ## 🚀 Швидкий старт
 
+### 🆕 **НОВАЧКАМ СЮДИ!** 
+👉 **Відкрийте файл [START-HERE.md](START-HERE.md)** - покрокова інструкція для початківців!
+
 ### 1️⃣ Клонування репозиторію
 ```bash
 git clone https://github.com/rubin666666/javascript-course.git
@@ -69,32 +72,34 @@ xdg-open js-basics/index.html
 
 ```
 javascript-course/
-├── 📄 README.md                    # ← Ця документація
-├── 📚 TUTORIAL.md                  # ← Простий конспект для початківців
+├── � START-HERE.md                # ← ПОЧНИ ЗВІДСИ! Інструкція для новачків
+├── �📄 README.md                    # ← Ця документація  
+├── � CHEATSHEET.md                # ← Швидка шпаргалка
+├── �📚 TUTORIAL.md                  # ← Простий конспект для початківців
 ├── 📖 JAVASCRIPT-REFERENCE.md      # ← Довідник-словник по JavaScript
 ├── 🎨 styles.css                   # ← Стилі для всіх HTML сторінок
 │
 └── 📁 js-basics/                   # ← Основна папка курсу
     ├── 🏠 index.html               # ← Головна сторінка курсу
     ├── 🧪 tester.html              # ← Інтерактивний JavaScript тестер
-    ├── 📖 README.md                # ← Докладний опис уроків
     │
     ├── 📝 01-variables.js          # ← Урок 1: Змінні
-    ├── 📝 02-operators.js          # ← Урок 2: Оператори  
+    ├── 📝 02-operators.js          # ← Урок 2: Оператори
     ├── 📝 03-conditions.js         # ← Урок 3: Умови
     ├── 📝 04-loops.js              # ← Урок 4: Цикли
     ├── 📝 05-functions.js          # ← Урок 5: Функції
     ├── 📝 06-arrays.js             # ← Урок 6: Масиви
     ├── 📝 07-objects.js            # ← Урок 7: Об'єкти
     │
-    └── 📁 exercises/               # ← Практичні завдання
-        ├── 💪 01-variables-exercises.js
-        ├── 💪 02-operators-exercises.js
-        ├── 💪 03-conditions-exercises.js
-        ├── 💪 04-loops-exercises.js
-        ├── 💪 05-functions-exercises.js
-        ├── 💪 06-arrays-exercises.js
-        └── 💪 07-objects-exercises.js
+    ├── 📁 exercises/               # ← Практичні завдання (7 файлів)
+    └── 📁 solutions/               # ← Готові рішення (7 файлів)
+        ├── ✅ 01-variables-solutions.js
+        ├── ✅ 02-operators-solutions.js
+        ├── ✅ 03-conditions-solutions.js
+        ├── ✅ 04-loops-solutions.js
+        ├── ✅ 05-functions-solutions.js
+        ├── ✅ 06-arrays-solutions.js
+        └── ✅ 07-objects-solutions.js
 ```
 
 ## 🛠️ Способи запуску
@@ -199,10 +204,10 @@ let age = ???; // ← Замініть ??? на правильний код
 
 ## 📝 Документація
 
-### Основні файли документації:
-- 📄 **README.md** (цей файл) - повний огляд курсу, уроків та інструкції
-- 📚 **TUTORIAL.md** - простий конспект основ для початківців
-- 📖 **JAVASCRIPT-REFERENCE.md** - швидкий довідник-словник по JavaScript
+### Основні файли:
+- 🚀 **START-HERE.md** - швидкий старт для початківців (15 хвилин)
+- � **GUIDE.md** - головний довідник з теорією та прикладами
+- � **README.md** (цей файл) - технічна інформація про курс
 
 ### Структура коментарів в коді:
 ```javascript

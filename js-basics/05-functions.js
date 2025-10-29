@@ -1,233 +1,329 @@
 // ===========================================
-// УРОК 5: ФУНКЦІЇ В JAVASCRIPT
+// ⚙️ УРОК 5: ФУНКЦІЇ В JAVASCRIPT (FUNCTIONS)
 // ===========================================
 
-console.log("=== ОГОЛОШЕННЯ ФУНКЦІЙ ===");
+/*
+📚 ЩО ВИВЧИМО В ЦЬОМУ УРОЦІ:
+- Різні способи оголошення функцій
+- Параметри за замовчуванням та rest-параметри
+- Область видимості (scope) та замикання (closures)
+- Callback функції та функції вищого порядку
+- Рекурсія - функції що викликають себе
+- Практичні приклади створення корисних функцій
+*/
 
-// 1. Function Declaration (Оголошення функції)
-function greet(name) {
-    return `Привіт, ${name}!`;
+console.log("=== ⚙️ СПОСОБИ ОГОЛОШЕННЯ ФУНКЦІЙ ===");
+
+// 📖 ФУНКЦІЯ - це блок коду що виконує конкретну задачу
+// Функції роблять код більш організованим та повторно використовуваним
+
+// 🎯 СПОСІБ 1: Function Declaration (Класичне оголошення)
+function createGreeting(userName) {
+    console.log(`🔧 Функція createGreeting викликана з параметром: ${userName}`);
+    return `👋 Вітаю, ${userName}! Радий познайомитися!`;
 }
 
-console.log(greet("Марія"));
+// Викликаємо функцію і зберігаємо результат
+let welcomeMessage = createGreeting("Марія");
+console.log(`📤 Результат: ${welcomeMessage}`);
 
-// 2. Function Expression (Вираз функції)
-const goodbye = function(name) {
-    return `До побачення, ${name}!`;
+// 🎯 СПОСІБ 2: Function Expression (Функція як вираз)
+const createFarewell = function(personName) {
+    console.log(`🔧 Анонімна функція викликана для: ${personName}`);
+    return `👋 До зустрічі, ${personName}! Гарного дня!`;
 };
 
-console.log(goodbye("Петро"));
+console.log(`📤 ${createFarewell("Петро")}`);
 
-// 3. Arrow Function (Стрілкова функція) - ES6
-const multiply = (a, b) => {
-    return a * b;
+// 🎯 СПОСІБ 3: Arrow Function (Стрілкова функція ES6) - сучасний стиль
+const calculateProduct = (firstNumber, secondNumber) => {
+    console.log(`🔧 Стрілкова функція: ${firstNumber} × ${secondNumber}`);
+    return firstNumber * secondNumber;
 };
 
-// Коротка форма для простих функцій
-const square = x => x * x;
-const sayHello = () => "Привіт світ!";
+// ⚡ КОРОТКА ФОРМА стрілкових функцій (без фігурних дужок)
+const getSquare = x => x * x;                    // Один параметр
+const generateWelcome = () => "🌍 Привіт світ!"; // Без параметрів
 
-console.log(`multiply(5, 3) = ${multiply(5, 3)}`);
-console.log(`square(4) = ${square(4)}`);
-console.log(sayHello());
+console.log(`🧮 Результат множення: ${calculateProduct(5, 3)}`);
+console.log(`📐 Квадрат числа 4: ${getSquare(4)}`);
+console.log(`🎉 ${generateWelcome()}`);
 
-console.log("\n=== ПАРАМЕТРИ ФУНКЦІЙ ===");
+// 💡 РІЗНИЦЯ МІЖ СПОСОБАМИ:
+console.log("\n📋 Порівняння способів оголошення:");
+console.log("✅ Function Declaration: доступна до оголошення (hoisting)");
+console.log("✅ Function Expression: доступна тільки після оголошення");
+console.log("✅ Arrow Function: компактний синтаксис, немає власного 'this'");
 
-// Параметри за замовчуванням
-function createUser(name, age = 18, city = "Київ") {
+console.log("\n=== 📝 ПАРАМЕТРИ ФУНКЦІЙ ===");
+
+// 🎯 ПАРАМЕТРИ ЗА ЗАМОВЧУВАННЯМ - якщо параметр не передано
+function buildUserProfile(fullName, userAge = 18, location = "Київ", isActive = true) {
+    console.log(`👤 Створюємо профіль користувача:`);
+    console.log(`   Ім'я: ${fullName} ${fullName ? '✅' : '❌'}`);
+    console.log(`   Вік: ${userAge} (${userAge === 18 ? 'за замовчуванням' : 'вказано'})`);
+    console.log(`   Місто: ${location} (${location === 'Київ' ? 'за замовчуванням' : 'вказано'})`);
+    
     return {
-        name: name,
-        age: age,
-        city: city
+        name: fullName,
+        age: userAge,
+        city: location,
+        active: isActive
     };
 }
 
-console.log(createUser("Анна"));
-console.log(createUser("Іван", 25));
-console.log(createUser("Ольга", 30, "Львів"));
+console.log("\n🧪 Тестуємо параметри за замовчуванням:");
+console.log("1️⃣ Тільки ім'я:", buildUserProfile("Анна"));
+console.log("\n2️⃣ Ім'я + вік:", buildUserProfile("Іван", 25));
+console.log("\n3️⃣ Всі параметри:", buildUserProfile("Ольга", 30, "Львів"));
 
-// Rest параметри (...args)
-function sum(...numbers) {
-    let total = 0;
-    for (let number of numbers) {
-        total += number;
-    }
-    return total;
-}
-
-console.log(`sum(1, 2, 3) = ${sum(1, 2, 3)}`);
-console.log(`sum(1, 2, 3, 4, 5) = ${sum(1, 2, 3, 4, 5)}`);
-
-// Деструктуризація параметрів
-function displayPerson({name, age, city}) {
-    console.log(`${name}, ${age} років, з міста ${city}`);
-}
-
-displayPerson({name: "Василь", age: 32, city: "Одеса"});
-
-console.log("\n=== ОБЛАСТЬ ВИДИМОСТІ (SCOPE) ===");
-
-let globalVar = "Глобальна змінна";
-
-function outerFunction() {
-    let outerVar = "Зовнішня змінна";
+// ⭐ REST ПАРАМЕТРИ (...args) - приймають необмежену кількість аргументів
+function calculateSum(...inputNumbers) {
+    console.log(`🧮 Отримано ${inputNumbers.length} чисел: [${inputNumbers.join(', ')}]`);
     
-    function innerFunction() {
-        let innerVar = "Внутрішня змінна";
-        console.log(globalVar);  // Доступна
-        console.log(outerVar);   // Доступна
-        console.log(innerVar);   // Доступна
+    let runningTotal = 0;
+    let calculation = "";
+    
+    for (let i = 0; i < inputNumbers.length; i++) {
+        runningTotal += inputNumbers[i];
+        calculation += inputNumbers[i];
+        if (i < inputNumbers.length - 1) calculation += " + ";
     }
     
-    innerFunction();
-    // console.log(innerVar); // Помилка! Не доступна
+    console.log(`🔍 Обчислення: ${calculation} = ${runningTotal}`);
+    return runningTotal;
 }
 
-outerFunction();
+console.log("\n🧪 Тестуємо rest параметри:");
+console.log(`📊 Результат 1: ${calculateSum(1, 2, 3)}`);
+console.log(`📊 Результат 2: ${calculateSum(10, 20, 30, 40, 50)}`);
+console.log(`📊 Результат 3: ${calculateSum(7)}`); // Один параметр
 
-// Замикання (Closures)
-function createCounter() {
-    let count = 0;
+// 🎨 ДЕСТРУКТУРИЗАЦІЯ ПАРАМЕТРІВ - розпакування об'єкта
+function showPersonInfo({name, age, city, profession = "не вказано"}) {
+    console.log(`\n👨‍💼 === КАРТКА ОСОБИ ===`);
+    console.log(`📛 Ім'я: ${name}`);
+    console.log(`🎂 Вік: ${age} років`);
+    console.log(`🏙️ Місто: ${city}`);
+    console.log(`💼 Професія: ${profession}`);
+    console.log(`==================`);
+}
+
+console.log("\n🧪 Тестуємо деструктуризацію:");
+showPersonInfo({
+    name: "Василь Петренко", 
+    age: 32, 
+    city: "Одеса",
+    profession: "веб-розробник"
+});
+
+showPersonInfo({
+    name: "Марія Коваль",
+    age: 28,
+    city: "Харків"
+    // profession не вказано - буде "не вказано"
+});
+
+// 🔄 КОМБІНУВАННЯ РІЗНИХ ТИПІВ ПАРАМЕТРІВ
+function advancedFunction(requiredParam, optionalParam = "default", ...extraParams) {
+    console.log(`\n🔧 Аналіз параметрів функції:`);
+    console.log(`📌 Обов'язковий: ${requiredParam}`);
+    console.log(`⚙️ Опціональний: ${optionalParam}`);
+    console.log(`📦 Додаткові (${extraParams.length}): [${extraParams.join(', ')}]`);
+    
+    return {
+        required: requiredParam,
+        optional: optionalParam,
+        extras: extraParams
+    };
+}
+
+console.log("🧪 Комбіновані параметри:");
+advancedFunction("головний", "власний", "додатковий1", "додатковий2", "додатковий3");
+
+console.log("\n=== 🌍 ОБЛАСТЬ ВИДИМОСТІ (SCOPE) ===");
+
+// 🌐 ГЛОБАЛЬНА ОБЛАСТЬ - доступна у всьому коді
+let globalMessage = "Я доступна у всьому коді! 🌍";
+
+function demonstrateScope() {
+    // 🏠 ЛОКАЛЬНА ОБЛАСТЬ - доступна тільки в цій функції
+    let localMessage = "Я доступна тільки в цій функції 🏠";
+    
+    function nestedFunction() {
+        // 🪆 ВКЛАДЕНА ОБЛАСТЬ - має доступ до всіх зовнішніх областей
+        let nestedMessage = "Я у вкладеній функції 🪆";
+        
+        console.log("✅", globalMessage);  // Доступна
+        console.log("✅", localMessage);   // Доступна  
+        console.log("✅", nestedMessage);  // Доступна
+    }
+    
+    nestedFunction();
+    // ❌ console.log(nestedMessage); // Помилка! Не доступна тут
+}
+
+demonstrateScope();
+
+// 🔒 ЗАМИКАННЯ (CLOSURES) - функція "запам'ятовує" свої змінні
+console.log("\n🔒 Приклад замикання: лічильники");
+
+function createPersonalCounter(initialValue = 0) {
+    let privateCount = initialValue; // Приватна змінна
     
     return function() {
-        count++;
-        return count;
+        privateCount++; // Змінюємо приватну змінну
+        return privateCount;
     };
 }
 
-const counter1 = createCounter();
-const counter2 = createCounter();
+const userCounter = createPersonalCounter(0);
+const adminCounter = createPersonalCounter(100);
 
-console.log("\nЗамикання:");
-console.log("counter1:", counter1()); // 1
-console.log("counter1:", counter1()); // 2
-console.log("counter2:", counter2()); // 1
-console.log("counter1:", counter1()); // 3
+console.log("👤 Користувач:", userCounter()); // 1
+console.log("👤 Користувач:", userCounter()); // 2
+console.log("👨‍💼 Адмін:", adminCounter());      // 101
+console.log("👤 Користувач:", userCounter()); // 3
+console.log("👨‍💼 Адмін:", adminCounter());      // 102
 
-console.log("\n=== CALLBACK ФУНКЦІЇ ===");
+// Кожна функція має свою приватну змінну!
 
-function processArray(array, callback) {
-    let result = [];
-    for (let item of array) {
-        result.push(callback(item));
+console.log("\n=== 📞 CALLBACK ФУНКЦІЇ ===");
+
+// 📖 CALLBACK - функція що передається як параметр іншій функції
+function transformArray(inputArray, transformFunction) {
+    console.log(`🔄 Обробляємо масив: [${inputArray.join(', ')}]`);
+    let resultArray = [];
+    
+    for (let element of inputArray) {
+        let transformed = transformFunction(element);
+        resultArray.push(transformed);
+        console.log(`  ${element} → ${transformed}`);
     }
+    
+    return resultArray;
+}
+
+const testNumbers = [1, 2, 3, 4, 5];
+
+console.log("🧪 Тестуємо callback функції:");
+const doubledResults = transformArray(testNumbers, x => x * 2);
+const squaredResults = transformArray(testNumbers, x => x * x);
+
+console.log(`📊 Подвоєні: [${doubledResults.join(', ')}]`);
+console.log(`📊 У квадраті: [${squaredResults.join(', ')}]`);
+
+console.log("\n=== 🔄 РЕКУРСІЯ - ФУНКЦІЯ ВИКЛИКАЄ СЕБЕ ===");
+
+// 🧮 ФАКТОРІАЛ: n! = n × (n-1) × (n-2) × ... × 1
+function calculateFactorial(number) {
+    console.log(`🔄 Викликано calculateFactorial(${number})`);
+    
+    // 🛑 БАЗОВИЙ ВИПАДОК - умова зупинки рекурсії
+    if (number <= 1) {
+        console.log(`✅ Базовий випадок: ${number}! = 1`);
+        return 1;
+    }
+    
+    // 🔄 РЕКУРСИВНИЙ ВИКЛИК
+    let result = number * calculateFactorial(number - 1);
+    console.log(`📊 ${number}! = ${number} × ${number-1}! = ${result}`);
     return result;
 }
 
-const numbers = [1, 2, 3, 4, 5];
+console.log(`🎯 Результат: 5! = ${calculateFactorial(5)}`);
 
-const doubled = processArray(numbers, x => x * 2);
-const squared = processArray(numbers, x => x * x);
-
-console.log("Оригінал:", numbers);
-console.log("Подвоєні:", doubled);
-console.log("У квадраті:", squared);
-
-// Приклад з setTimeout
-console.log("Зараз");
-setTimeout(() => {
-    console.log("Це виконається через 2 секунди");
-}, 2000);
-console.log("Це виконається одразу");
-
-console.log("\n=== РЕКУРСІЯ ===");
-
-// Факторіал через рекурсію
-function factorial(n) {
-    if (n <= 1) {
-        return 1;
-    }
-    return n * factorial(n - 1);
+// 🌟 ЧИСЛА ФІБОНАЧЧІ: F(n) = F(n-1) + F(n-2)
+function fibonacciNumber(position) {
+    if (position <= 1) return position;
+    return fibonacciNumber(position - 1) + fibonacciNumber(position - 2);
 }
 
-console.log(`Факторіал 5 = ${factorial(5)}`);
-
-// Числа Фібоначчі
-function fibonacci(n) {
-    if (n <= 1) {
-        return n;
-    }
-    return fibonacci(n - 1) + fibonacci(n - 2);
+console.log("\n🌟 Перші числа Фібоначчі:");
+for (let i = 0; i < 7; i++) {
+    console.log(`F(${i}) = ${fibonacciNumber(i)}`);
 }
 
-console.log("Перші 8 чисел Фібоначчі:");
-for (let i = 0; i < 8; i++) {
-    console.log(`fibonacci(${i}) = ${fibonacci(i)}`);
+console.log("\n=== 🎯 ПРАКТИЧНІ ПРИКЛАДИ ФУНКЦІЙ ===");
+
+// ✉️ ПРИКЛАД 1: Валідатор електронної пошти
+function validateEmail(emailAddress) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let isValid = emailPattern.test(emailAddress);
+    console.log(`📧 ${emailAddress}: ${isValid ? "✅ валідний" : "❌ невалідний"}`);
+    return isValid;
 }
 
-console.log("\n=== PRACTICAL EXAMPLES ===");
+console.log("📧 Перевірка email адрес:");
+["ivan@gmail.com", "invalid-email", "maria@domain.co.uk"].forEach(validateEmail);
 
-// Приклад 1: Валідатор email
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-const emails = ["test@gmail.com", "invalid-email", "user@domain.co.uk"];
-emails.forEach(email => {
-    console.log(`${email}: ${isValidEmail(email) ? "✅" : "❌"}`);
-});
-
-// Приклад 2: Форматування тексту
-const formatText = {
-    capitalize: text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase(),
-    reverse: text => text.split('').reverse().join(''),
-    removeSpaces: text => text.replace(/\s+/g, ''),
-    wordCount: text => text.trim().split(/\s+/).length
+// 🎨 ПРИКЛАД 2: Набір функцій для роботи з текстом
+const textProcessor = {
+    toTitleCase: text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase(),
+    reverseText: text => text.split('').reverse().join(''),
+    removeAllSpaces: text => text.replace(/\s+/g, ''),
+    countWords: text => text.trim().split(/\s+/).filter(word => word.length > 0).length
 };
 
-const sampleText = "  привіт світ  ";
-console.log(`\nОригінал: "${sampleText}"`);
-console.log(`Capitalize: "${formatText.capitalize(sampleText)}"`);
-console.log(`Reverse: "${formatText.reverse(sampleText.trim())}"`);
-console.log(`Remove spaces: "${formatText.removeSpaces(sampleText)}"`);
-console.log(`Word count: ${formatText.wordCount(sampleText)}`);
+const testString = "  привіт чудовий світ  ";
+console.log(`\n🎨 Обробка тексту: "${testString}"`);
+console.log(`📝 Заголовок: "${textProcessor.toTitleCase(testString)}"`);
+console.log(`🔄 Реверс: "${textProcessor.reverseText(testString.trim())}"`);
+console.log(`🚫 Без пробілів: "${textProcessor.removeAllSpaces(testString)}"`);
+console.log(`🔢 Кількість слів: ${textProcessor.countWords(testString)}`);
 
-// Приклад 3: Калькулятор
-const calculator = {
-    add: (a, b) => a + b,
-    subtract: (a, b) => a - b,
-    multiply: (a, b) => a * b,
-    divide: (a, b) => b !== 0 ? a / b : "Ділення на нуль!",
-    power: (a, b) => Math.pow(a, b)
+// 🧮 ПРИКЛАД 3: Універсальний калькулятор
+const smartCalculator = {
+    add: (x, y) => x + y,
+    subtract: (x, y) => x - y,
+    multiply: (x, y) => x * y,
+    divide: (x, y) => y !== 0 ? x / y : "⚠️ Ділення на нуль неможливе!",
+    power: (base, exponent) => Math.pow(base, exponent),
+    percentage: (value, percent) => (value * percent) / 100
 };
 
-console.log("\nКалькулятор:");
-console.log(`10 + 5 = ${calculator.add(10, 5)}`);
-console.log(`10 - 5 = ${calculator.subtract(10, 5)}`);
-console.log(`10 * 5 = ${calculator.multiply(10, 5)}`);
-console.log(`10 / 5 = ${calculator.divide(10, 5)}`);
-console.log(`2^8 = ${calculator.power(2, 8)}`);
+console.log("\n🧮 Демонстрація калькулятора:");
+console.log(`➕ 15 + 7 = ${smartCalculator.add(15, 7)}`);
+console.log(`➖ 15 - 7 = ${smartCalculator.subtract(15, 7)}`);
+console.log(`✖️ 15 × 7 = ${smartCalculator.multiply(15, 7)}`);
+console.log(`➗ 15 ÷ 3 = ${smartCalculator.divide(15, 3)}`);
+console.log(`⚡ 2³ = ${smartCalculator.power(2, 3)}`);
+console.log(`📊 20% від 250 = ${smartCalculator.percentage(250, 20)}`);
 
-// Приклад 4: Пошук і фільтрація
-function findInArray(array, predicate) {
-    for (let item of array) {
-        if (predicate(item)) {
-            return item;
-        }
+// 🔍 ПРИКЛАД 4: Функції пошуку та фільтрації
+function findFirstMatch(dataArray, testFunction) {
+    for (let item of dataArray) {
+        if (testFunction(item)) return item;
     }
     return null;
 }
 
-function filterArray(array, predicate) {
-    let result = [];
-    for (let item of array) {
-        if (predicate(item)) {
-            result.push(item);
-        }
-    }
-    return result;
+function filterItems(dataArray, testFunction) {
+    return dataArray.filter(testFunction); // Використовуємо вбудований метод
 }
 
-const people = [
-    { name: "Анна", age: 25, city: "Київ" },
-    { name: "Петро", age: 30, city: "Львів" },
-    { name: "Марія", age: 22, city: "Київ" },
-    { name: "Іван", age: 28, city: "Одеса" }
+const employees = [
+    { name: "Анна Коваль", age: 25, department: "IT", salary: 25000 },
+    { name: "Петро Мельник", age: 30, department: "HR", salary: 22000 },
+    { name: "Марія Петренко", age: 22, department: "IT", salary: 27000 },
+    { name: "Іван Шевченко", age: 28, department: "Finance", salary: 30000 }
 ];
 
-const youngPerson = findInArray(people, person => person.age < 25);
-const kyivPeople = filterArray(people, person => person.city === "Київ");
+console.log("\n👥 Пошук та фільтрація співробітників:");
 
-console.log("\nПошук особи молодше 25 років:", youngPerson);
-console.log("Люди з Києва:", kyivPeople);
+const youngEmployee = findFirstMatch(employees, emp => emp.age < 25);
+const itEmployees = filterItems(employees, emp => emp.department === "IT");
+const highPaidEmployees = filterItems(employees, emp => emp.salary > 25000);
+
+console.log("🔍 Наймолодший співробітник:", youngEmployee?.name || "не знайдено");
+console.log("💻 IT відділ:", itEmployees.map(emp => emp.name).join(", "));
+console.log("💰 Високооплачувані:", highPaidEmployees.map(emp => emp.name).join(", "));
+
+// 🏁 ПІДСУМОК УРОКУ
+console.log("\n=== 📚 ПІДСУМОК УРОКУ 5 ===");
+console.log("✅ Опанували різні способи створення функцій");
+console.log("✅ Вивчили параметри за замовчуванням та rest-параметри");
+console.log("✅ Розібрали область видимості та замикання");
+console.log("✅ Попрактикувалися з callback функціями та рекурсією");
+console.log("✅ Створили корисні функції для реальних задач");
+console.log("🎯 Наступний крок: масиви та методи роботи з ними!");
