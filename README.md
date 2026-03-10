@@ -34,6 +34,9 @@
 - ✅ Функції (звичайні, стрілкові, callback, замикання)
 - ✅ Масиви та їх методи (map, filter, reduce)
 - ✅ Об'єкти (створення, методи, деструктуризація)
+- ✅ DOM (пошук і зміна HTML-елементів)
+- ✅ Події (click, input, submit, delegation)
+- ✅ Fetch API (GET/POST, async/await, обробка помилок)
 
 ### Час навчання:
 - ⏱️ **Мінімум:** 4-6 годин (тільки теорія)
@@ -92,16 +95,22 @@ javascript-course/
     ├── 📝 05-functions.js          # ← Урок 5: Функції
     ├── 📝 06-arrays.js             # ← Урок 6: Масиви
     ├── 📝 07-objects.js            # ← Урок 7: Об'єкти
+    ├── 📝 08-dom-basics.js         # ← Урок 8: DOM Basics
+    ├── 📝 09-events.js             # ← Урок 9: Події
+    ├── 📝 10-fetch.js              # ← Урок 10: Fetch API
     │
-    ├── 📁 exercises/               # ← Практичні завдання (7 файлів)
-    └── 📁 solutions/               # ← Готові рішення (7 файлів)
+    ├── 📁 exercises/               # ← Практичні завдання (10 файлів)
+    └── 📁 solutions/               # ← Готові рішення (10 файлів)
         ├── ✅ 01-variables-solutions.js
         ├── ✅ 02-operators-solutions.js
         ├── ✅ 03-conditions-solutions.js
         ├── ✅ 04-loops-solutions.js
         ├── ✅ 05-functions-solutions.js
         ├── ✅ 06-arrays-solutions.js
-        └── ✅ 07-objects-solutions.js
+        ├── ✅ 07-objects-solutions.js
+        ├── ✅ 08-dom-basics-solutions.js
+        ├── ✅ 09-events-solutions.js
+        └── ✅ 10-fetch-solutions.js
 ```
 
 ## 🛠️ Способи запуску
@@ -142,6 +151,9 @@ node js-basics/exercises/01-variables-exercises.js
 | 5 | Функції | 90 хв | 🔴 Складно | `05-functions.js` |
 | 6 | Масиви | 75 хв | 🔴 Складно | `06-arrays.js` |
 | 7 | Об'єкти | 75 хв | 🔴 Складно | `07-objects.js` |
+| 8 | DOM Basics | 60 хв | 🟡 Середньо | `08-dom-basics.js` |
+| 9 | Події (Events) | 60 хв | 🟡 Середньо | `09-events.js` |
+| 10 | Fetch API | 75 хв | 🔴 Складно | `10-fetch.js` |
 
 **Загальний час:** 7-8 годин теорії + 5-10 годин практики
 
